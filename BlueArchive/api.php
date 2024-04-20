@@ -86,7 +86,7 @@ class BlueArchive {
 			header('content-type: application/json; charset=utf-8');
 			echo json_encode($message, JSON_UNESCAPED_UNICODE);
 		} else {
-			header('content-type: text/plain; charset=utf-8')
+			header('content-type: text/plain; charset=utf-8');
 			echo $message;
 		}
 	}
