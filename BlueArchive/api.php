@@ -83,8 +83,10 @@ class BlueArchive {
 			header('content-type: image/png');
 			echo $message->getImageBlob();
 		} elseif (is_array($message) || is_object($message)) {
+			header('content-type: application/json; charset=utf-8');
 			echo json_encode($message, JSON_UNESCAPED_UNICODE);
 		} else {
+			header('content-type: text/plain; charset=utf-8')
 			echo $message;
 		}
 	}
