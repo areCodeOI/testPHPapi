@@ -1,6 +1,4 @@
-# 一些好玩的 php 代码, 依托于 PHP8+
-
-> [PHP](https://www.php.net/)
+# 一些好玩的 php 代码, 依托于 [PHP](https://www.php.net/)8+
 
 ## 规范
 
