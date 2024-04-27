@@ -1,5 +1,6 @@
 <?php
 
+//基于7.4  8.0需要改改
 require '../cURL.php';
 
 function qie($data)
