@@ -6,6 +6,6 @@
 - 数据来源：https://github.com/chinese-poetry/chinese-poetry
 
 ## 预览
-- <[def]>
+- <[oiapi.net]>
 
-[def]: https://oiapi.net/API/Sentence
+[oiapi.net]: https://oiapi.net/API/Sentences
