@@ -20,7 +20,8 @@ function qse($data)
     return base64_encode($encrypted);
 }
 
-$url = "/v3/bookdetail/get?bookId=1039545713";
+$url = "/v3/bookdetail/get?bookId=";
+
 
 print_r(qd_query($url));
 
