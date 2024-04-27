@@ -10,6 +10,9 @@ class operate
 	private function __construct() {
 		
 	}
+	/*
+         * 禁止克隆
+	 */
     private function __clone() {
         
     }
