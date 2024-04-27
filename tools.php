@@ -2,7 +2,6 @@
 namespace tools;
 class tools
 {
-	const RedisHost = '127.0.0.1';
 	private function __construct() {
 		
 	}
@@ -30,7 +29,6 @@ class tools
 	 */
 	public static function send(int $code = 1, mixed $message = null, array | Object $data = [], mixed $type = 'json', Bool $e = true) : void
 	{
-		// print_r(gettype($message));exit;
 		if(is_array($message)) {
 			if(isset($message['code'])) $code = $message['code'];
 			if(isset($message['data']) && is_array($message['data'])) $data = $message['data'];
