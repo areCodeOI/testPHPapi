@@ -1,7 +1,7 @@
 <?
 namespace api\Sentences;
-require_once('../tools.php');
-require_once('../operate.php');
+require_once('../tools/tools.php');
+require_once('../tools/operate.php');
 
 use tools\operate;
 use tools\tools;
