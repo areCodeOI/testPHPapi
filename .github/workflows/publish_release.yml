@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Create ZIP file
     
-      run: zip -r repo.zip .
+      run: zip -r OIAPI.zip .
     - name: Upload ZIP as artifact
     
       uses: actions/upload-artifact@v3
