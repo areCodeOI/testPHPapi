@@ -8,17 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     name: Spawn Source
     steps:
-      - name: Install Zip
-        run: sudo apt-get install zip
-
-      - name: Compress Zip
-        run: zip -r -j OIAPI.zip testPHPapi/tools/
+    - uses: actions/checkout@v2
+    - name: Create ZIP file
+      run: zip -r OIAPI.zip .
       
-      - name: Upload Temp File
-        uses: actions/upload-artifact@v3
-        with:
-          name: Artifacts
-          path: OIAPI.zip
+    - name: Upload ZIP as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Artifacts
+        path: OIAPI.zip
           
   LatestRelease:
     name: Publish
@@ -65,4 +63,3 @@ jobs:
         with:
           name: |
             Artifacts
-
