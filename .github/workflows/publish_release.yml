@@ -13,7 +13,7 @@ jobs:
         run: sudo apt-get install zip
 
       - name: Compress Zip
-        run: zip -r -j OIAPI.zip ./
+        run: zip -r -j OIAPI.zip .
       
       - name: Upload Temp File
         uses: actions/upload-artifact@v3
