@@ -1,0 +1,68 @@
+name: Publish Release
+
+on:
+  push:
+    branches: [ "master"]
+    
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    name: Create Pack
+    steps:
+      - name: Install Zip
+        run: sudo apt-get install zip
+
+      - name: Compress Zip
+        run: zip -r -j OIAPI.zip testPHPapi
+      
+      - name: Upload Temp File
+        uses: actions/upload-artifact@v3
+        with:
+          name: Artifacts
+          path: OIAPI.zip
+          
+  LatestRelease:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: Build
+    permissions:
+         contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Update tag
+        run: |
+          git tag -f V1.0.0.0
+          git push -f origin V1.0.0.0
+      - name: Download Temp Files
+        uses: actions/download-artifact@v3
+        with:
+          name: Artifacts
+          path: ./bin
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: V1.0.0.0
+          name: "最新版本"
+          body: ""
+          artifacts: |
+            ./bin/*
+          allowUpdates: true
+          removeArtifacts: true
+              
+         
+  ClearTempArtifacts:
+    name: 清理临时文件
+    if: always()
+    runs-on: ubuntu-latest
+    needs:
+      - LatestRelease
+    permissions:
+      actions: write
+    steps:
+      - uses: geekyeggo/delete-artifact@v5
+        with:
+          name: |
+            Artifacts
