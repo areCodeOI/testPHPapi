@@ -6,6 +6,7 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
+    name: Spawn Source
     steps:
     - uses: actions/checkout@v2
     - name: Create ZIP file
