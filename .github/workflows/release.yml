@@ -1,0 +1,39 @@
+name: Building
+
+on:
+  push:
+     tags:
+      - "v*"
+    
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    name: Building Source
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Zip
+        # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
+        run: zip -r OIAPI.zip .
+
+      - name: Up Load Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OIAPI
+          path: OIAPI.zip
+          
+      - name: Extract version from tag
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+    
+      - name: 发布插件包
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: V${{ env.VERSION }}
+          name: OIAPI V${{ env.VERSION }}
+          body: |
+             # 更新
+          artifact: OIAPI.zip
+          allowUpdates: true
+          removeArtifacts: true
