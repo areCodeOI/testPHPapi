@@ -1,0 +1,51 @@
+name: Building
+
+on: [push, pull_request]
+    
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    name: Building Source
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Zip
+        # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
+        run: zip -r OIAPI.zip .
+        
+      - name: Get current commit information
+        id: get_current_commit
+        run: |
+          COMMIT_INFO=$(git log -1 --pretty=format:"%s")
+          echo "COMMINTINFO=$COMMIT_INFO" >> $GITHUB_ENV
+      
+      - name: Extract version from commit message
+        id: extract_version
+        shell: pwsh
+        run: |
+          $pattern = 'v\d+(\.\d+)*'
+          $commit_msg = "${{ env.COMMINTINFO }}"
+          $VERSION = "1.0.0.0"
+          if ($commit_msg -match $pattern) {
+             $VERSION = $Matches[0]
+           }
+           echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Up Load Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OIAPI
+          path: OIAPI.zip
+
+      - name: 发布插件包
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: V${{ env.VERSION }}
+          name: OIAPI V${{ env.VERSION }}
+          body: |
+             # 更新
+          artifact: OIAPI.zip
+          allowUpdates: true
+          removeArtifacts: true
