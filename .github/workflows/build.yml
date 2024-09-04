@@ -20,7 +20,7 @@ jobs:
       - name: Get current commit information
         id: get_current_commit
         run: |
-          COMMIT_INFO=$(git log -1 --pretty=format:"%H %an %ae %s")
+          COMMIT_INFO=$(git log -1 --pretty=format:"%s")
           echo "commit_info=$COMMIT_INFO" >> $GITHUB_OUTPUT
       
       - name: Extract version from commit message
