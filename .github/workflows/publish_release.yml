@@ -41,7 +41,7 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          tag: V1.0.0.3
+          tag: V1.0.0.8
           name: "Release"
           body: ""
           artifacts: |
