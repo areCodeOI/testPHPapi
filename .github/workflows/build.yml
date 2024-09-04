@@ -41,6 +41,7 @@ jobs:
           path: OIAPI.zip
 
       - name: 发布插件包
+        run: echo "V${{ env.VERSION }}"
         #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: ncipollo/release-action@v1
         with:
