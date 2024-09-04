@@ -27,9 +27,10 @@ jobs:
         id: extract_version
         shell: pwsh
         run: |
+          echo ${{ steps.get_current_commit.outputs.commit_info }}
           $pattern = 'v\d+(\.\d+)*'
           $VERSION = 1.0.0.0
-          if ($inputString -match $pattern) {
+          if (${{ steps.get_current_commit.outputs.commit_info }} -match $pattern) {
              $VERSION = $Matches[0]
            }
            echo "version=$VERSION" >> $GITHUB_OUTPUT
