@@ -25,7 +25,7 @@ jobs:
       - name: Get current commit tag
         id: get_current_commit_tag
         run: |
-          TAG=$(git describe --tags --exact -match)
+          TAG=$(git describe --tags --exact-match)
           if [[ $TAG == v* ]]; then
             echo "::set-output name=tag::$TAG"
           fi
