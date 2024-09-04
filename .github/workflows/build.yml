@@ -23,7 +23,7 @@ jobs:
       - name: Extract version from commit message
         id: extract_version
         run: |
-          input_string = ${{ env.COMMINTINFO }}
+          input_string = "${{ env.COMMINTINFO }}"
           pattern = 'v[0-9]+\.[0-9]+(\.[0-9]+)?'
           if [[ $input_string =~ $pattern ]]; then
              version=${BASH_REMATCH[0]//v/}
