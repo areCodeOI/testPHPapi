@@ -21,7 +21,7 @@ jobs:
         id: get_current_commit
         run: |
           COMMIT_INFO=$(git log -1 --pretty=format:"%H %an %ae %s")
-          echo "::save-state name=commit_info::$COMMIT_INFO"
+          echo "commit_info=$COMMIT_INFO" >> $GITHUB_OUTPUT
       
       - name: Extract version from commit message
         id: extract_version
@@ -30,7 +30,7 @@ jobs:
           if [[ -z "$VERSION" ]]; then
             VERSION="0.0.0" # 设置默认版本号或跳过后续操作
           fi
-          echo "::save-state name=version::$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Up Load Artifact
         uses: actions/upload-artifact@v4
