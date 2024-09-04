@@ -13,21 +13,20 @@ jobs:
       - name: Create Zip
         # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
         run: zip -r OIAPI.zip .
-        
-      - name: Get current commit information
-        id: get_current_commit
-        run: |
-          COMMIT_INFO=$(git log -1 --pretty=format:"%s")
-          echo "COMMINTINFO=$COMMIT_INFO" >> $GITHUB_ENV
       
       - name: Extract version from commit message
         id: extract_version
+        shell: pwsh
         run: |
-          VER=$(echo "${{ github.event.head_commit.message }}" | grep -o 'v[0-9]\+.[0-9]\+.[0-9]+')
-          if [[ -z "$VER" ]]; then
-            VER="1.0.0.0" # 设置默认版本号或跳过后续操作
-          fi
-          echo "VERSION=$VER" >> $GITHUB_ENV
+          $pattern = 'v\d+(\.\d+)*'
+          $commit_msg = "${{ github.event.head_commit.message }}"
+          echo $commit_msg
+          $ver = "1.0.0.0"
+          if ($commit_msg -match $pattern) {
+             $ver = $Matches[0] -replace 'v', ''          
+           }
+           echo "VERSION=$ver" >> $GITHUB_ENV
+           echo $ver
 
 
       - name: Up Load Artifact
