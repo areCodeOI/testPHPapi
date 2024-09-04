@@ -1,7 +1,6 @@
 name: Building
 
-on:
-  workflow_dispatch:
+on: [push, pull_request]
     
 jobs:
   Build:
@@ -14,6 +13,11 @@ jobs:
       - name: Create Zip
         # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
         run: zip -r OIAPI.zip .
+        
+      - name: Get current commit information
+        run: |
+          COMMIT_INFO=$(git log -1 --pretty=format:"%H %an %ae %s")
+          echo "::set-output name=commit_info::$COMMIT_INFO"
 
       - name: Up Load Artifact
         uses: actions/upload-artifact@v4
