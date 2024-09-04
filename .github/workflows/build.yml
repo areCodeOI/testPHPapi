@@ -20,10 +20,20 @@ jobs:
         run: |
           $pattern = 'v\d+(\.\d+)*'
           $commit_msg = "${{ github.event.head_commit.message }}"
-          echo $commit_msg
-          $ver = "1.0.0.0"
+          $jsonContent = Get-Content -Path '.config/version.json' -Raw | ConvertFrom-Json
           if ($commit_msg -match $pattern) {
-             $ver = $Matches[0] -replace 'v', ''          
+             $ver = $Matches[0] -replace 'v', ''
+             if($ver -ne $jsonContent.version){
+                $jsonContent.version = $ver
+                $newJsonContent = $jsonContent | ConvertTo-Json
+                Set-Content -Path '.config/version.json' -Value $newJsonContent
+                git add .config/version.json
+                git commit -m "自动更新版本文件 [skip ci]"
+                git push
+             }
+           }
+           else{
+             $ver = $jsonContent.version
            }
            echo "CURRENT_VER=$ver" >> $env:GITHUB_ENV
            echo $ver
