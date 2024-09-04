@@ -29,9 +29,10 @@ jobs:
           echo $commit_msg
           $ver = "1.0.0.0"
           if ($commit_msg -match $pattern) {
-             $ver = $Matches[0] -replace 'v', ''          
+             $ver = $Matches[0] -replace 'v', ''
+             echo "VERSION=$ver" >> $GITHUB_ENV
            }
-           echo "VERSION=$ver" >> $GITHUB_ENV
+           #echo "VERSION=$ver" >> $GITHUB_ENV
            echo $ver
 
       - name: Up Load Artifact
