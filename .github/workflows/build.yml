@@ -22,17 +22,17 @@ jobs:
         run: |
           COMMIT_INFO=$(git log -1 --pretty=format:"%H %an %ae %s")
           echo "commit_info=$COMMIT_INFO" >> $GITHUB_OUTPUT
-          echo $COMMIT_INFO
       
       - name: Extract version from commit message
         id: extract_version
+        shell: pwsh
         run: |
-          echo ${{ steps.get_current_commit.outputs.commit_info }}
-          VERSION=$(echo "${{ steps.get_current_commit.outputs.commit_info }}" | grep -oP '(?<=v)[0-9]+\.[0-9]+\.[0-9]+')
-          if [[ -z "$VERSION" ]]; then
-            VERSION="0.0.0" # 设置默认版本号或跳过后续操作
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          $pattern = 'v\d+(\.\d+)*'
+          $VERSION = 1.0.0.0
+          if ($inputString -match $pattern) {
+             $VERSION = $Matches[0]
+           }
+           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Up Load Artifact
         uses: actions/upload-artifact@v4
