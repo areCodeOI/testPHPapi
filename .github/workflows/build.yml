@@ -28,19 +28,14 @@ jobs:
            echo "CURRENT_VER=$ver" >> $env:GITHUB_ENV
            echo $ver
 
-
       - name: Up Load Artifact
         uses: actions/upload-artifact@v4
         with:
           name: OIAPI
           path: OIAPI.zip
 
-      - name: test
-        run: |
-           echo "V${{ env.CURRENT_VER }}"
-
-      - name: 发布插件包
-        #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      - name: publish
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: ncipollo/release-action@v1
         with:
           tag: "V${{ env.CURRENT_VER }}"
