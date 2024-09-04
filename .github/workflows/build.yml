@@ -25,7 +25,7 @@ jobs:
           if ($commit_msg -match $pattern) {
              $ver = $Matches[0] -replace 'v', ''          
            }
-           echo "VERSION=$ver" >> $GITHUB_ENV
+           echo "CURRENT_VER=$myVar" >> $env:GITHUB_ENV
            echo $ver
 
 
@@ -37,7 +37,7 @@ jobs:
 
       - name: test
         run: |
-           echo "V${{ env.VERSION }}"
+           echo "V${{ env.CURRENT_VER }}"
 
       - name: 发布插件包
         #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
