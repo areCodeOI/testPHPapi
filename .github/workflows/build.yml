@@ -33,6 +33,7 @@ jobs:
              $VERSION = $Matches[0]
            }
            echo "version=$VERSION" >> $GITHUB_OUTPUT
+           echo $VERSION
 
       - name: Up Load Artifact
         uses: actions/upload-artifact@v4
