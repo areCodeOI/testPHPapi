@@ -2,7 +2,7 @@ name: Building
 
 on:
   push:
-     tags:
+    tags:
       - "v*"
     
 jobs:
@@ -16,12 +16,6 @@ jobs:
       - name: Create Zip
         # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
         run: zip -r OIAPI.zip .
-
-      - name: Up Load Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: OIAPI
-          path: OIAPI.zip
           
       - name: Extract version from tag
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
