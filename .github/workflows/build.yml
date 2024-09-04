@@ -6,6 +6,9 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     name: Building Source
+    outputs:
+      commit_info: ${{ steps.get_current_commit.outputs.commit_info }}
+      version: ${{ steps.extract_version.outputs.version }}   
     permissions:
       contents: write
     steps:
@@ -15,9 +18,19 @@ jobs:
         run: zip -r OIAPI.zip .
         
       - name: Get current commit information
+        id: get_current_commit
         run: |
           COMMIT_INFO=$(git log -1 --pretty=format:"%H %an %ae %s")
-          echo "$COMMIT_INFO"
+          echo "::set-output name=commit_info::$COMMIT_INFO"
+      
+      - name: Extract version from commit message
+        id: extract_version
+        run: |
+          VERSION=$(echo "${{ steps.get_current_commit.outputs.commit_info }}" | grep -oP '(?<=v)[0-9]+\.[0-9]+\.[0-9]+')
+          if [[ -z "$VERSION" ]]; then
+            VERSION="0.0.0"
+          fi
+          echo "::set-output name=version::$VERSION"
 
       - name: Up Load Artifact
         uses: actions/upload-artifact@v4
