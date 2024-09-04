@@ -23,11 +23,11 @@ jobs:
       - name: Extract version from commit message
         id: extract_version
         run: |
-          VERSION=$(echo "${{ env.COMMINTINFO }}" | grep -o '(?<=v)[0-9]+\.[0-9]+\.[0-9]+')
-          if [[ -z "$VERSION" ]]; then
-            VERSION="1.0.0.0" # 设置默认版本号或跳过后续操作
+          VER=$(echo ${{ github.event.head_commit.message }} | grep -o 'v[0-9]\+.[0-9]\+.[0-9]+')
+          if [[ -z "$VER" ]]; then
+            VER="1.0.0.0" # 设置默认版本号或跳过后续操作
           fi
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION=$VER" >> $GITHUB_ENV
 
 
       - name: Up Load Artifact
