@@ -26,6 +26,7 @@ jobs:
         run: |
           $pattern = 'v\d+(\.\d+)*'
           $commit_msg = "${{ env.COMMINTINFO }}"
+          echo $commit_msg
           $VERSION = "1.0.0.0"
           if ($commit_msg -match $pattern) {
              $VERSION = $Matches[0]
