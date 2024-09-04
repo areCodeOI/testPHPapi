@@ -21,7 +21,7 @@ jobs:
           path: OIAPI.zip
           
       - name: Extract version from tag
-        run: ${{ steps.get_current_commit_tag.outputs.tag }}
+        run: echo ${{ steps.get_current_commit_tag.outputs.tag }}
 
       - name: 更新tag
         #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
