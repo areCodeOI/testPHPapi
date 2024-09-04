@@ -6,6 +6,8 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     name: Building Source
+    outputs:
+      tag: ${{ steps.get_current_commit_tag.outputs.tag }}
     permissions:
       contents: write
     steps:
@@ -20,10 +22,13 @@ jobs:
           name: OIAPI
           path: OIAPI.zip
           
-      - name: Extract version from tag
+      - name: Get current commit tag
+        id: get_current_commit_tag
         run: |
           TAG=$(git describe --tags --exact-match)
-          echo "::set-output name=tag::$TAG"
+          if [[ $TAG == v* ]]; then
+            echo "::set-output name=tag::$TAG"
+          fi
           
       - name: 更新tag
         #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
