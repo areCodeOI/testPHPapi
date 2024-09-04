@@ -6,14 +6,12 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     name: Building Source
-    outputs:
-      tag: ${{ steps.get_current_commit_tag.outputs.tag }}
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Create Zip
-        #if: github.event_name == 'push' || github.ref == 'refs/heads/master'
+        # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
         run: zip -r OIAPI.zip .
 
       - name: Up Load Artifact
@@ -21,29 +19,3 @@ jobs:
         with:
           name: OIAPI
           path: OIAPI.zip
-          
-      - name: Get current commit tag
-        id: get_current_commit_tag
-        run: |
-          TAG=$(git describe --tags --exact-match)
-          if [[ $TAG == v* ]]; then
-            echo "::set-output name=tag::$TAG"
-          fi
-          
-      - name: 更新tag
-        #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: |
-          git tag -f V1.0.0.0
-          git push -f origin V1.0.0.0
-
-      - name: 发布插件包
-        #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: ncipollo/release-action@v1
-        with:
-          tag: V1.0.0.0
-          name: "最新版本"
-          body: |
-             # 更新
-          artifact: OIAPI.zip
-          allowUpdates: true
-          removeArtifacts: true
