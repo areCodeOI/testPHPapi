@@ -22,10 +22,12 @@ jobs:
         run: |
           COMMIT_INFO=$(git log -1 --pretty=format:"%H %an %ae %s")
           echo "commit_info=$COMMIT_INFO" >> $GITHUB_OUTPUT
+          echo $COMMIT_INFO
       
       - name: Extract version from commit message
         id: extract_version
         run: |
+          echo ${{ steps.get_current_commit.outputs.commit_info }}
           VERSION=$(echo "${{ steps.get_current_commit.outputs.commit_info }}" | grep -oP '(?<=v)[0-9]+\.[0-9]+\.[0-9]+')
           if [[ -z "$VERSION" ]]; then
             VERSION="0.0.0" # 设置默认版本号或跳过后续操作
