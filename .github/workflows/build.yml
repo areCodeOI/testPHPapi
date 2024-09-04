@@ -44,7 +44,7 @@ jobs:
         #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: ncipollo/release-action@v1
         with:
-          tag: V${{ env.VERSION }}
+          tag: "V${{ env.COMMINTINFO }}"
           name: OIAPI V${{ env.VERSION }}
           body: |
              # 更新内容
