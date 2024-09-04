@@ -13,7 +13,7 @@ jobs:
       run: zip -r OIAPI.zip .
       
     - name: Upload ZIP as artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Artifacts
         path: OIAPI.zip
@@ -34,7 +34,7 @@ jobs:
           git tag -f V1.0.0.0
           git push -f origin V1.0.0.0
       - name: Download Temp Files
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
         with:
           name: Artifacts
           path: ./bin
