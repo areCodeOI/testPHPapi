@@ -34,7 +34,7 @@ jobs:
           git tag -f V1.0.0.0
           git push -f origin V1.0.0.0
       - name: Download Temp Files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: Artifacts
           path: ./bin
