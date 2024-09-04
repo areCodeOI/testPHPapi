@@ -27,7 +27,6 @@ jobs:
         id: extract_version
         shell: pwsh
         run: |
-          echo ${{ steps.get_current_commit.outputs.commit_info }}
           $pattern = 'v\d+(\.\d+)*'
           $commit_msg = "${{ steps.get_current_commit.outputs.commit_info }}"
           $VERSION = 1.0.0.0
