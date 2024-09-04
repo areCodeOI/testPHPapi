@@ -1,5 +1,5 @@
 <?php
-namespace api\Face_Grey;
+namespace api;
 
 require_once '../tools/tools.php';
 require_once '../tools/curl.php';
