@@ -28,7 +28,7 @@ jobs:
         run: |
           VERSION=$(echo "${{ steps.get_current_commit.outputs.commit_info }}" | grep -oP '(?<=v)[0-9]+\.[0-9]+\.[0-9]+')
           if [[ -z "$VERSION" ]]; then
-            VERSION="0.0.0"
+            VERSION="0.0.0" # 设置默认版本号或跳过后续操作
           fi
           echo "::set-output name=version::$VERSION"
 
