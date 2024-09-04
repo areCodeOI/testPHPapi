@@ -29,7 +29,7 @@ jobs:
         run: |
           $pattern = 'v\d+(\.\d+)*'
           $commit_msg = "${{ steps.get_current_commit.outputs.commit_info }}"
-          $VERSION = 1.0.0.0
+          $VERSION = "1.0.0.0"
           if ($commit_msg -match $pattern) {
              $VERSION = $Matches[0]
            }
