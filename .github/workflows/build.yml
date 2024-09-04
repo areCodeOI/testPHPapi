@@ -18,6 +18,8 @@ jobs:
         id: extract_version
         shell: pwsh
         run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           $pattern = 'v\d+(\.\d+)*'
           $commit_msg = "${{ github.event.head_commit.message }}"
           $jsonContent = Get-Content -Path '.config/version.json' -Raw | ConvertFrom-Json
