@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Create Zip
         # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
-        run: zip -r OIAPI.zip .
+        run: zip -r OIAPI.zip src
       
       - name: Extract version from commit message
         id: extract_version
@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: OIAPI
-          path: OIAPI.zip
+          path: src/*
 
       - name: publish
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
