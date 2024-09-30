@@ -45,7 +45,7 @@ jobs:
 
       - name: Download Temp File
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v4
+        uses: actions/download-artifact@v4
         with:
           name: OTAPI
           path: temp
