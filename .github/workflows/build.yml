@@ -48,11 +48,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: OIAPI
-          path: temp
+          path: ./bin
           merge-multiple: true
       - name: Save Temp File
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: ls -R temp
+        run: ls -R ./bin
 
       - name: publish
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -61,6 +61,7 @@ jobs:
           tag: "V${{ env.CURRENT_VER }}"
           name: OIAPI V${{ env.CURRENT_VER }}
           body: "# 更新内容"
-          artifact: temp/OIAPI.zip
+          artifact: |
+             ./bin/*
           allowUpdates: true
           removeArtifacts: true
