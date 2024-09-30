@@ -15,7 +15,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
          name: OIAPI
-         path: src
+         path: src/*
+         compression-level: 9
       
       - name: Extract version from commit message
         id: extract_version
@@ -48,11 +49,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: OIAPI
-          path: ./bin
+          path: out
           merge-multiple: true
       - name: Save Temp File
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: ls -R ./bin
+        run: ls -R out
 
       - name: publish
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -62,6 +63,6 @@ jobs:
           name: OIAPI V${{ env.CURRENT_VER }}
           body: "# 更新内容"
           artifact: |
-             ./bin/*
+             out/OTAPI.zip
           allowUpdates: true
           removeArtifacts: true
