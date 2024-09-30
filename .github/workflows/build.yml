@@ -54,6 +54,6 @@ jobs:
           name: OIAPI V${{ env.CURRENT_VER }}
           body: |
              # 更新内容
-          artifact: OIAPI.zip
+          artifacts: OIAPI.zip
           allowUpdates: true
           removeArtifacts: true
