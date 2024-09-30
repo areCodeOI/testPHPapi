@@ -48,11 +48,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: OTAPI
-          path: ./bin
+          path: temp
           merge-multiple: true
       - name: Save Temp File
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: ls -R ./bin
+        run: ls -R temp
 
       - name: publish
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -61,7 +61,6 @@ jobs:
           tag: "V${{ env.CURRENT_VER }}"
           name: OIAPI V${{ env.CURRENT_VER }}
           body: "# 更新内容"
-          artifact: |
-            ./bin/*
+          artifact: temp/OTAPI.zip
           allowUpdates: true
           removeArtifacts: true
