@@ -10,9 +10,11 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Create Zip
-        # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
-        run: zip -r OIAPI.zip src
+      - name: Up Load Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OIAPI
+          path: src/*
       
       - name: Extract version from commit message
         id: extract_version
@@ -39,13 +41,14 @@ jobs:
            }
            echo "CURRENT_VER=$ver" >> $env:GITHUB_ENV
            echo $ver
-
-      - name: Up Load Artifact
-        uses: actions/upload-artifact@v4
+           
+      - name: Download File
+        uses: dawidd6/action-download-artifact@v6
         with:
-          name: OIAPI
-          path: src/*
-
+            name: OIAPI
+            path: out
+            skip_unpack: true
+    
       - name: publish
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: ncipollo/release-action@v1
@@ -54,6 +57,6 @@ jobs:
           name: OIAPI V${{ env.CURRENT_VER }}
           body: |
              # 更新内容
-          artifacts: OIAPI.zip
+          artifacts: out/OIAPI.zip
           allowUpdates: true
           removeArtifacts: true
