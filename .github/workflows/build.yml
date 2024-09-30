@@ -10,13 +10,9 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Up Load Artifact
-        uses: actions/upload-artifact@v4
-        with:
-         name: OIAPI
-         path: src/*
-         compression-level: 9
+      - name: Create Zip
+        # if: github.event_name == 'push' || github.ref == 'refs/heads/master'
+        run: zip -r OIAPI.zip .
       
       - name: Extract version from commit message
         id: extract_version
@@ -44,16 +40,11 @@ jobs:
            echo "CURRENT_VER=$ver" >> $env:GITHUB_ENV
            echo $ver
 
-      - name: Download Temp File
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: actions/download-artifact@v4
+      - name: Up Load Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: OIAPI
-          path: out
-          merge-multiple: true
-      - name: Save Temp File
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: ls -R out
+          path: OIAPI.zip
 
       - name: publish
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -61,8 +52,8 @@ jobs:
         with:
           tag: "V${{ env.CURRENT_VER }}"
           name: OIAPI V${{ env.CURRENT_VER }}
-          body: "# 更新内容"
-          artifact: |
-             out/OTAPI.zip
+          body: |
+             # 更新内容
+          artifact: OIAPI.zip
           allowUpdates: true
           removeArtifacts: true
