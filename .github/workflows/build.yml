@@ -10,6 +10,10 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      - name: get date
+        id: get-date
+        run: echo "timestamp=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+
       - name: Create release archive
         run: zip -r out/OIAPI.zip src/
 
@@ -46,7 +50,16 @@ jobs:
           tag: "V${{ env.CURRENT_VER }}"
           name: OIAPI V${{ env.CURRENT_VER }}
           body: |
-            # 更新内容
+            ## 🚀 版本更新日志 V${{ env.CURRENT_VER }}   
+            **提交信息**  
+            ```plaintext
+            ${{ format('{0}', github.event.head_commit.message) }}
+            ```
+            
+            ### 构建详情
+            - 提交者: ${{ github.actor }}
+            - 提交SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            - 触发时间: ${{ steps.get-date.outputs.timestamp }}
           artifacts: OIAPI.zip
           allowUpdates: true
           removeArtifacts: true
