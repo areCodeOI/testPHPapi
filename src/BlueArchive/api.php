@@ -91,4 +91,5 @@ class BlueArchive {
 		}
 	}
 }
+
 new BlueArchive();
