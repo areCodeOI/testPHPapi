@@ -10,12 +10,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Up Load Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: OIAPI
-          path: src/  # 确保上传的路径是打包后的文件路径
+      - name: Create release archive
+        run: zip -r out/OIAPI.zip src/
 
       - name: Extract version from commit message
         id: extract_version
@@ -43,13 +39,6 @@ jobs:
            echo "CURRENT_VER=$ver" >> $env:GITHUB_ENV
            echo $ver
 
-      - name: Download File
-        uses: dawidd6/action-download-artifact@v6
-        with:
-            name: OIAPI
-            path: out  # 下载到 out 文件夹
-            skip_unpack: true
-
       - name: publish
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: ncipollo/release-action@v1
@@ -57,7 +46,9 @@ jobs:
           tag: "V${{ env.CURRENT_VER }}"
           name: OIAPI V${{ env.CURRENT_VER }}
           body: |
-             # 更新内容
-          artifacts: out/OIAPI.zip  # 确保发布时的路径与下载后的路径一致
+            # 更新内容
+          artifacts: OIAPI.zip
           allowUpdates: true
           removeArtifacts: true
+      - name: cleanup zip
+        run: rm -rf out/OIAPI.zip
